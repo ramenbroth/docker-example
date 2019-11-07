@@ -1,0 +1,26 @@
+version: '2.1'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
+  flask:
+    environment:
+      FLASK_ENV: development
+    build: ./flask
+    ports:
+      - "8000:8000"
+    depends_on: 
+      - db
+  react:
+    environment:
+      NODE_ENV: development
+    build: ./react
+    depends_on:
+      - flask
+    ports:
+      - "8001:3000"
